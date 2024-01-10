@@ -1,0 +1,107 @@
+<html>
+<head>
+  <!-- Include Bootstrap CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+  <style>
+    /* Add some custom styles */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+    container-sm{
+      font-family: 'Montserrat', sans-serif;
+    }
+    .logo {
+      height: 50px;
+      margin-right: 10px;
+    }
+    .navbar{
+      font-family: 'Open Sans',sans-serif;
+    }
+    .nav-item{
+      font-size: 21px;
+    }
+    .navbar-brand {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .navbar-nav {
+      font-size: 20px;
+    }
+
+    .nav-link {
+      color: white;
+    }
+
+    .nav-link:hover {
+      color: yellow;
+    }
+
+    .navbar {
+      background-color: #17235f;
+    }
+  
+  </style>
+  {% block style %}
+  {% endblock %}
+</head>
+<body>
+  <!-- Create a navbar with a logo and four options -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    {% if session.get("user_id")[:2]=="ST" %}
+      <a class="navbar-brand" href="/student">
+        <img src="/static/logo.png" class="logo" alt="QuizWizz Logo">QuizWizz
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item {{ 'active' if active_page == 'home' else '' }}">
+            <a class="nav-link" href="/student">Home</a>
+          </li>
+          <li class="nav-item {{ 'active' if active_page == 'quiz' else '' }}">
+            <a class="nav-link" href="/student/quizes">Quiz</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ 'active' if active_page == 'history' else '' }}" href="/student/history">History</a>
+          </li>
+    {% endif %}
+
+    {% if session.get("user_id")[:2]=="TA" %}
+      <a class="navbar-brand" href="/teacher">
+        <img src="/static/logo.png" class="logo" alt="QuizWizz Logo">QuizWizz
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item {{ 'active' if active_page == 'home' else '' }}">
+            <a class="nav-link" href="/teacher">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ 'active' if active_page == 'quiz' else '' }}" href="/teacher/quiz">Quiz</a>
+          </li>
+          <li class="nav-item {{ 'active' if active_page == 'feedback' else '' }}">
+            <a class="nav-link" href="/teacher/feedbacks">Feedbacks</a>
+          </li>
+    {% endif %}
+
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- Add a placeholder for the main content -->
+  <div class="container-sm">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

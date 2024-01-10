@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+        <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
+        <title>Choose</title>
+        <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+
+        <style>
+            /* Add some custom styles */
+
+            body {
+            font-family: Arial, Helvetica, sans-serif;
+            }
+
+            .container_main {
+            width: 500px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            }
+
+            .h1_text {
+            text-align: center;
+            color: #333333;
+            }
+
+            .form-group {
+            margin: 10px 0;
+            }
+
+            .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            }
+
+            .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            outline: none;
+            }
+
+            .form-group input:focus {
+            border-color: #66ccff;
+            }
+
+            .form-group input[type="date"] {
+            cursor: pointer;
+            }
+
+
+            .error {
+            color: red;
+            font-style: italic;
+            margin-bottom: 10px;
+            }
+            .jumbotron {
+              background-color: #17235f; /* Change the background color to light purple */
+              color: white;
+              padding: 30px;
+              animation: bounce 6s infinite; /* Make the animation slower */
+            }
+        
+            .jumbotron h1 {
+              font-size: 50px;
+              font-weight: bold;
+            }
+        
+            .jumbotron p {
+              font-size: 20px;
+            }
+        
+            .btn-primary {
+              background-color: #C6267B; /* Change the button color to darker purple */
+              border: none;
+            }
+        
+            .btn-secondary {
+              background-color: #C6267B; /* Change the button color to darker purple */
+              border: none;
+            }
+        
+        
+            .btn-primary:hover {
+              background-color: #79174b; /* Change the hover color to even darker purple */
+            }
+        
+            .btn-secondary:hover {
+              background-color: #79174b;
+            }
+
+            .primary_log {
+              background-color: #C6267B; /* Change the button color to darker purple */
+              border: none;
+              color: white;
+              font-weight: bold;
+              cursor: pointer;
+            }
+            .primary_log:hover {
+              background-color: #79174b; /* Change the hover color to even darker purple */
+            }
+
+            .container {
+              margin: 20px 0;
+            }
+        
+            .container h2 {
+              text-align: center;
+              color: #333333;
+            }
+        
+            .container p {
+              font-size: 18px;
+              line-height: 1.5;
+            }
+        
+            /* Define the bounce animation */
+            @keyframes bounce {
+              0%, 100% {
+                transform: translateY(0);
+              }
+              50% {
+                transform: translateY(-10px);
+              }
+            }
+          </style>
+
+        <title>Log in</title>
+
+    </head>
+
+    <body>
+<!-- 
+        {% if error %}
+        <p class="mt-3" style="text-align: center; color: tomato;"><strong>Error:</strong> {{ error }}
+        {% endif %}
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <header>
+                    <div class="alert alert-primary mb-0 text-center" role="alert">
+                        <strong class="{{ messages[0][0] }}">{{ messages[0][1] }}</strong>
+                    </div>
+                </header>
+            {% endif %}
+        {% endwith %} -->
+        <div class="jumbotron">
+            <div class="container">
+              <h1>QuizWizz!</h1>
+              <p>The ultimate online quiz platform for teachers and students.</p>
+              <p>
+                <a href="/login" class="btn btn-primary btn-lg" role="button">Log in</a>
+
+              </p>
+            </div>
+        </div>
+        <div class="container_main">
+            <p>
+                <a href="/signup_teacher" class="btn btn-primary btn-lg" role="button">Sign up as a Teacher</a>
+            </p>
+
+            <p>
+                <a href="/signup_student" class="btn btn-primary btn-lg" role="button">Sign up as a Student</a>
+            </p>
+        </div>
+
+
+    </body>
+</html>

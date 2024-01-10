@@ -1,0 +1,162 @@
+{% extends "layout.html" %}
+{% set active_page = "quiz" %}
+
+{% block style %}
+<title>Take quiz</title>
+<script src="https://unpkg.com/htmx.org@1.9.9"></script>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+    .section {
+        padding: 10px 0;
+        position: relative;
+        margin-top: 10px;
+    }
+    .gray-bg {
+        background-color: #f5f5f5;
+    }
+    .primary_log {
+    background-color: #C6267B; /* Change the button color to darker purple */
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    }
+    .primary_log:hover {
+    background-color: #79174b; /* Change the hover color to even darker purple */
+    }
+    .qinfo{
+        margin-left: 20px;
+    }
+    .float-child {
+        width: 50%;
+        float: left;
+        padding: 20px;
+    } 
+    .questions_div{
+        margin-top: 20px;
+        padding-top: 50px;
+    }
+
+    .container{
+        font-family: 'Montserrat', sans-serif;
+    }
+    .container > p{
+        font-size: 32px;
+    }
+    .question{
+        width: 75%;
+    }
+    .options{
+        position: relative;
+        padding-left: 40px;
+    }
+    #options label{
+        display: block;
+        margin-bottom: 15px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .options input{
+        opacity: 0;
+    }
+    .checkmark {
+        position: absolute;
+        top: -1px;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #555;
+        border: 1px solid #ddd;
+        border-radius: 50%;
+    }
+    .options input:checked ~ .checkmark:after {
+        display: block;
+    }
+    .options .checkmark:after{
+        content: "";
+        width: 10px;
+        height: 10px;
+        display: block;
+        background: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border-radius: 50%;
+        transform: translate(-50%,-50%) scale(0);
+        transition: 300ms ease-in-out 0s;
+    }
+    .options input[type="radio"]:checked ~ .checkmark{
+        background: #21bf73;
+        transition: 300ms ease-in-out 0s;
+    }
+    .options input[type="radio"]:checked ~ .checkmark:after{
+        transform: translate(-50%,-50%) scale(1);
+    }
+    
+    div.wrapper {
+            width: 300px;
+            height:300px;
+            border:1px solid black;
+        }
+
+    div.wrapper input[type="text"] {
+            display: block;
+            margin : 0 auto;
+    }
+
+    @media(max-width:576px){
+        .question{
+            width: 100%;
+            word-spacing: 2px;
+        } 
+    }
+</style>
+<script>
+    jQuery(document).ready(function($) {
+    $("#get_q").click(function() {
+        htmx.ajax('GET', '/student/getquestion', {target:'.questions_div', swap:'innerHTML', values:{qid : {{data.qid}}}}).then(() => {
+      // this code will be executed after the 'htmx:afterOnLoad' event,
+      // and before the 'htmx:xhr:loadend' event
+      console.log('Content inserted successfully!');
+      $(this).remove();
+    });
+    });
+
+
+    });
+</script>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container section gray-bg">
+    <div class="qinfo float-container">
+        <div class="float-child">
+            <h3>Title: {{data.title}}</h6>
+            <h4>Subject: {{data.sname}}</h4>
+            <h4>Duration: {{data.duration}} minutes</h4>
+            <h4>Set By Initial: <p style="color: #fc5356; display: inline;">{{data.ta_init}}</p></h4>
+        </div>
+        <div style="text-align: right;" class="float-child">
+            <br>
+            <br>
+            <h4>Number of Questions: {{data.no_of_q}}</h4>
+            <h4>Total Marks: {{data.total_mark}}</h4>
+        </div>
+    </div>
+    <p>&nbsp;</p>
+
+    <div style="text-align: center;">
+        <button type="button" id="get_q" class="btn btn-lg primary_log">Get Questions</button>
+    </div>
+
+    <div class="questions_div">
+        
+        
+    </div>
+</div>
+<script>
+</script>
+{% endblock %}

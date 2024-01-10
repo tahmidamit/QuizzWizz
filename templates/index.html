@@ -1,0 +1,98 @@
+<html>
+<head>
+  <!-- Include Bootstrap CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+  <title>Welcome</title>
+  <style>
+    /* Add some custom styles */
+    .jumbotron {
+      background-color: #17235f; /* Change the background color to light purple */
+      color: white;
+      padding: 50px;
+      animation: bounce 6s infinite; /* Make the animation slower */
+    }
+
+    .jumbotron h1 {
+      font-size: 50px;
+      font-weight: bold;
+    }
+
+    .jumbotron p {
+      font-size: 20px;
+    }
+
+    .btn-primary {
+      background-color: #C6267B; /* Change the button color to darker purple */
+      border: none;
+    }
+
+    .btn-secondary {
+      background-color: #C6267B; /* Change the button color to darker purple */
+      border: none;
+    }
+
+
+    .btn-primary:hover {
+      background-color: #79174b; /* Change the hover color to even darker purple */
+    }
+
+    .btn-secondary:hover {
+      background-color: #79174b;
+    }
+
+    .container {
+      margin: 20px 0;
+    }
+
+    .container h2 {
+      text-align: center;
+      color: #333333;
+    }
+
+    .container p {
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    /* Define the bounce animation */
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Create a jumbotron with a welcome message and buttons -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Welcome to QuizWizz!</h1>
+      <p>The ultimate online quiz platform for teachers and students.</p>
+      <p>
+        <a href="/choose" class="btn btn-primary btn-lg" role="button">Sign Up</a>
+        <a href="/login" class="btn btn-secondary btn-lg" role="button">Log In</a>
+      </p>
+    </div>
+  </div>
+  <!-- Create a container with some text that explains the website -->
+  <div class="container">
+    <h2>What is QuizWizz?</h2>
+    <p>QuizWizz is a website that lets you create and take quizzes online. Whether you are a teacher who wants to assess your students' knowledge, or a student who wants to test your own skills, QuizWizz is the perfect tool for you.</p>
+    <p>With QuizWizz, you can:</p>
+    <ul>
+      <li>Create quizzes with multiple choice, short answer, or essay questions.</li>
+      <li>Share your quizzes with your classmates, friends, or anyone you want.</li>
+      <li>Take quizzes on any topic and get instant feedback and scores.</li>
+      <li>Track your progress and performance with detailed reports and analytics.</li>
+      <li>Join a community of quiz enthusiasts and challenge yourself with fun and engaging quizzes.</li>
+    </ul>
+    <p>QuizWizz is easy to use, secure, and free. All you need is an email address and a password to sign up and start quizzing. So what are you waiting for? Join QuizWizz today and unleash your quiz potential!</p>
+  </div>
+</body>
+</html>

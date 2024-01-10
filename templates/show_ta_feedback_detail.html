@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% set active_page = "feedback" %}
+
+{% block style %}
+<title>Feedbacks</title>
+<style>
+    .section {
+        padding: 10px 0;
+        position: relative;
+        margin-top: 10px;
+    }
+    .gray-bg {
+        background-color: #f5f5f5;
+    }
+    table {
+    counter-reset: tableCount;     
+    }
+    .counterCell:before {              
+        content: counter(tableCount); 
+        counter-increment: tableCount; 
+    }
+
+</style>
+
+<script>
+</script>
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="container section gray-bg">
+
+
+    <table class="table table-hover table-secondary table-striped">
+        <caption>Feedbacks From students</caption>
+        <thead>
+          <tr>
+            <th class="text-center" scope="col">#sn</th>
+            <th class="text-center" scope="col">Student Name</th>
+            <th class="text-center" scope="col">Institute</th>
+            <th class="text-center" scope="col">Obtained Marks</th>
+            <th class="text-center" scope="col">Taken on</th>
+            <th class="text-center" scope="col">Feedback</th>
+
+          </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+                <tr>
+                    <th class="text-center counterCell" scope="row"></th>
+                    <td class="text-center">{{i.st_name}}</td>
+                    <td class="text-center">{{i.st_current_inst}}</td>
+                    <td class="text-center">{{i.obtained_marks}}/{{i.total_mark}}</td>
+                    <td class="text-center">{{i.quiz_date}}</td>
+                    <td class="text-center">{{'No Feedback' if i.feedback == "" else i.feedback}}</td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>    
+</div>
+
+{% endblock %}

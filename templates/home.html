@@ -1,0 +1,323 @@
+{% extends "layout.html" %}
+{% set active_page = "home" %}
+
+{% block style %}
+<title>Home</title>
+<style>
+        body{
+        color: #6F8BA4;
+
+    }
+    .section {
+        padding: 100px 0;
+        position: relative;
+        margin-top: 10px;
+    }
+    .gray-bg {
+        background-color: #f5f5f5;
+    }
+    img {
+        max-width: 100%;
+    }
+    img {
+        vertical-align: middle;
+        border-style: none;
+
+    }
+    /* About Me 
+    ---------------------*/
+    .about-avatar img {
+        margin-left: 200px;
+        border: 4px solid #555;
+        padding: 3px;
+    }
+
+    .about-text h3 {
+    font-size: 45px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    }
+    @media (max-width: 767px) {
+    .about-text h3 {
+        font-size: 35px;
+    }
+    }
+    .about-text h6 {
+    font-weight: 600;
+    margin-bottom: 15px;
+    }
+    @media (max-width: 767px) {
+    .about-text h6 {
+        font-size: 18px;
+    }
+    }
+    .about-text p {
+    font-size: 18px;
+    max-width: 450px;
+    }
+
+    .about-list {
+    padding-top: 10px;
+    }
+    .about-list .media {
+    padding: 5px 0;
+    }
+    .about-list label {
+    color: #20247b;
+    font-weight: 600;
+    width: 88px;
+    margin: 0;
+    position: relative;
+    }
+
+    .about-list label:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 11px;
+    width: 1px;
+    height: 12px;
+    background: #20247b;
+    -moz-transform: rotate(15deg);
+    -o-transform: rotate(15deg);
+    -ms-transform: rotate(15deg);
+    -webkit-transform: rotate(15deg);
+    transform: rotate(15deg);
+    margin: auto;
+    opacity: 0.5;
+    }
+    .about-list p {
+    margin: 0;
+    font-size: 15px;
+    }
+    .primary_log {
+        background-color: #C6267B; /* Change the button color to darker purple */
+        border: none;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .primary_log:hover {
+        background-color: #79174b; /* Change the hover color to even darker purple */
+    }
+
+
+    @media (max-width: 991px) {
+    .about-avatar {
+        margin-top: 30px;
+    }
+    }
+
+    .about-section .counter {
+    padding: 22px 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(31, 45, 61, 0.125);
+    margin-top: 50px;
+
+    }
+    .about-section .counter .count-data {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    }
+    .about-section .counter .count {
+    font-weight: 700;
+    color: #20247b;
+    margin: 0 0 5px;
+    }
+    .about-section .counter p {
+    font-weight: 600;
+    margin: 0;
+    }
+    mark {
+        background-image: linear-gradient(rgba(252, 83, 86, 0.6), rgba(252, 83, 86, 0.6));
+        background-size: 100% 3px;
+        background-repeat: no-repeat;
+        background-position: 0 bottom;
+        background-color: transparent;
+        padding: 0;
+        color: currentColor;
+    }
+    .theme-color {
+        color: #fc5356;
+    }
+    .dark-color {
+        color: #20247b;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if session.get("user_id")[:2]=="ST" %}
+<section class="section about-section gray-bg" id="about">
+    <div class="container">
+        <div class="row align-items-center flex-row-reverse">
+            <div class="col-lg-6">
+                <div class="about-text go-to">
+                    <h3 class="dark-color">{{data.st_name}}<small style="font-size: 20px;">(Student)</small></h3>
+                    <h6 class="theme-color lead">Currently studying in {{data.st_current_inst}}</h6>
+                    <div class="row about-list">
+                        <div class="col-md-6">
+                            <div class="media">
+                                <label>Birthday</label>
+                                <p>{{data.st_dob}}</p>
+                            </div>
+                            <div class="media">
+                                <label>Age</label>
+                                <p>{{data.age}} Yr</p>
+                            </div>
+
+                            <div class="media">
+                                <label>E-mail</label>
+                                <p>{{data.st_email}}</p>
+                            </div>
+                            <div class="media">
+                                <label>Phone</label>
+                                {% if data.st_phone==None %}
+                                    <p>Not provided</p>
+                                {% else %}
+                                    <p>{{data.st_phone}}</p>
+                                {% endif %}
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-avatar">
+                    <img src="https://robohash.org/{{ data.st_id | string | join('2023') }}?size=250x250" title="" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-left: 190px;">
+            <a href="/student/profile" class="btn btn-success btn-sm ">Click here to update info</a>
+        </div>
+        
+        <div style="text-align: center; margin-top: 7px; margin-left: 223px;">
+            <a href="/student/password" class="btn btn-success btn-sm ">Click here to update password</a>
+        </div>
+
+        <div class="counter">
+            <div class="row">
+                <div class="col-6 col-lg-3">
+                    <div class="count-data text-center">
+                        <h6 class="count h2" data-to="500" data-speed="500">{{info1 if info1!=None else 0}}</h6>
+                        <p class="m-0px font-w-600">Quizes Attempted</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="count-data text-center">
+                        <h6 class="count h2" data-to="150" data-speed="150">{{info2[0].ta_init if info2 is defined and info2|length > 0 else "Try a quiz"}}</h6>
+                        <p class="m-0px font-w-600">Favourite Teacher</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="count-data text-center">
+                        <h6 class="count h2" data-to="850" data-speed="850">{{info3[0].avg_rating | int ~ '%' if info3 is defined and info3|length > 0 else "Try a quiz"}}</h6>
+                        <p class="m-0px font-w-600">Average Accuracy Rating</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="count-data text-center">
+                        <h6 class="count h2" data-to="190" data-speed="190">{{data.st_date_created[:-8]}}</h6>
+                        <p class="m-0px font-w-600">Join date</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endif %}
+
+{% if session.get("user_id")[:2]=="TA" %}
+<section class="section about-section gray-bg" id="about">
+    <div class="container">
+        <div class="row align-items-center flex-row-reverse">
+            <div class="col-lg-6">
+                <div class="about-text go-to">
+                    <h3 class="dark-color">{{data.ta_name}}<small style="font-size: 20px;">(Teacher)</small></h3>
+                    <h6 class="theme-color lead">Recognized by the initial {{data.ta_init}}</h6>
+                    <div class="row about-list">
+                        <div class="col-md-6">
+                            <div class="media">
+                                <label>Birthday</label>
+                                <p>{{data.ta_dob}}</p>
+                            </div>
+                            <div class="media">
+                                <label>Age</label>
+                                <p>{{data.age}} Yr</p>
+                            </div>
+
+                            <div class="media">
+                                <label>E-mail</label>
+                                <p>{{data.ta_email}}</p>
+                            </div>
+                            <div class="media">
+                                <label>Phone</label>
+                                {% if data.ta_phone=="" %}
+                                    <p>Not provided</p>
+                                {% else %}
+                                    <p>{{data.ta_phone}}</p>
+                                {% endif %}
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-avatar">
+                    <img src="https://robohash.org/{{ data.ta_id | string | join('2023') }}?size=250x250" title="" alt="">
+
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-left: 190px;">
+            <a href="/teacher/profile" class="btn btn-success btn-sm ">Click here to update info</a>
+        </div>
+        <div style="text-align: center; margin-top: 7px; margin-left: 224px;">
+            <a href="/teacher/password" class="btn btn-success btn-sm ">Click here to update password</a>
+        </div>
+
+
+        <div class="counter">
+            <div class="row">
+                <div class="col-6 col-lg-3">
+                    <div class="count-data text-center">
+                        <h6 class="count h2" data-to="500" data-speed="500">{{info.created if info.created!=None else 0}}</h6>
+                        <p class="m-0px font-w-600">Quizes Created</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="count-data text-center">
+                        <h6 class="count h2" data-to="150" data-speed="150">{{info.engaged if info.engaged!=None else 0}}</h6>
+                        <p class="m-0px font-w-600">Engaged times</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="count-data text-center">
+                        <h6 class="count h2" data-to="850" data-speed="850">{{info.users if info.users!=None else 0}}</h6>
+                        <p class="m-0px font-w-600">Students taught</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="count-data text-center">
+                        <h6 class="count h2" data-to="190" data-speed="190">{{data.ta_date_created[:-8]}}</h6>
+                        <p class="m-0px font-w-600">Join date</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,233 @@
+{% extends "layout.html" %}
+{% set active_page = "quiz" %}
+{% block content %}
+
+{% block style %}
+<title>Set Quiz</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://unpkg.com/htmx.org@1.9.9"></script>
+<script>
+    $(document).ready(function(){
+            // $('##quiz_create').submit(function(e) {
+            //     e.preventDefault()
+            // });
+        // $('#submit_button').removeAttr('onclick');
+        $('#quiz_create').on('submit', function(event){
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            var formData = new FormData($('#quiz_create')[0]);
+            $.ajax({
+                type : 'POST',
+                url : '/teacher/quiz/create',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                
+                success: function (data) {
+                Swal.fire({
+                title: "Invalid Input",
+                text: data.error,
+                icon: "error"
+                });
+
+                if(data.error=="Created..!"){
+                    Swal.fire({
+                    title: "Success",
+                    text: data.error,
+                    icon: "success"
+                    });
+                    setTimeout(function() {
+                        window.location.href = "/teacher/quiz";
+                    }, 1000);
+                }
+                }
+            
+            });
+                return false;
+            });
+            
+            $(document).off().on('click', '#add_q', function(evt)
+            {   
+                var t = Number($('#counter').val()) + 1;
+                $('.del_q').hide();
+
+                $('#counter').attr('value', t.toString());
+                // if(t>5){
+                //     $('#submit_button').show();
+                // }
+                if(t>30){
+                    $(this).hide();
+                }
+                
+                return false;
+
+            });
+            
+            (function($) {
+                $.fn.inputFilter = function(callback, errMsg) {
+                    return this.on("input keydown keyup mousedown mouseup select contextmenu drop focusout", function(e) {
+                    if (callback(this.value)) {
+                        // Accepted value
+                        if (["keydown","mousedown","focusout"].indexOf(e.type) >= 0){
+                        $(this).removeClass("input-error");
+                        this.setCustomValidity("");
+                        }
+                        this.oldValue = this.value;
+                        this.oldSelectionStart = this.selectionStart;
+                        this.oldSelectionEnd = this.selectionEnd;
+                    } else if (this.hasOwnProperty("oldValue")) {
+                        // Rejected value - restore the previous one
+                        $(this).addClass("input-error");
+                        this.setCustomValidity(errMsg);
+                        this.reportValidity();
+                        this.value = this.oldValue;
+                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                    } else {
+                        // Rejected value - nothing to restore
+                        this.value = "";
+                    }
+                    });
+                };
+                }(jQuery));
+
+                $(".input-error").inputFilter(function(value) {
+                return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 500); }, "Must be between 0 and 500");
+
+                document.addEventListener('htmx:afterRequest', function(evt) {
+                $(".input-error").inputFilter(function(value) {
+                return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 500); }, "Must be between 0 and 500");
+            });
+    });
+</script>
+<style>
+    .primary_log {
+    background-color: #C6267B; /* Change the button color to darker purple */
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    }
+    .primary_log:hover {
+    background-color: #79174b; /* Change the hover color to even darker purple */
+    }
+
+ 
+
+    .form-group {
+          margin: 10px 0;
+          }
+
+          .form-group label {
+          display: block;
+          font-weight: bold;
+          margin-bottom: 5px;
+          }
+
+          .form-group input, .primary_log{
+          width: 20%;
+          padding: 5px;
+          border: 1px solid #cccccc;
+          border-radius: 5px;
+          outline: none;
+          }
+
+
+          .form-group input:focus {
+          border-color: #66ccff;
+          }
+
+          .form-group input[type="date"] {
+          cursor: pointer;
+        }
+</style>
+{% endblock %}
+<div class="container">
+    <h1>Create a quiz</h1>
+    <p>Must add a Title, Subject, Duration and 3 questions with marks</p>
+    <form action="/teacher/quiz/create" id="quiz_create" method="post">
+        <input type="hidden" name="count" id="counter" value="1">
+        <div class="input-group w-50 mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Quiz Title</span>
+            </div>
+            <input type="text" name="quiz_title" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        </div>
+
+        <div class="input-group mb-3 w-50 input-group-lg">
+            <span class="input-group-text" id="inputGroup-sizing-lg">Description</span>
+            <input type="text" name="quiz_descrip" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+        </div>
+
+        <div class="input-group w-25 mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">Select the subject</label>
+            <select name="subject" class="form-select" id="inputGroupSelect01" required>
+              <option disabled value="" selected>Choose...</option>
+              {% for i in rows %}
+                <option value="{{i.sid}}">{{i.sname}}</option>
+              {% endfor %}
+            </select>
+        </div>
+
+        <div class="input-group w-25 mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Duration <small> (in minutes)</small></span>
+            </div>
+            <input type="text" class="form-control input-error" name="duration" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        </div>
+
+
+        
+        <div id="quiz_div" class="form-group">
+
+        </div>
+
+        <div class="form-group">
+            <input class="primary_log" type="submit" id="submit_button" value="Create the quiz">
+        </div>
+    </form>
+    
+    <div class="form-group">
+        <button hx-include="#counter" hx-get="/countmcq" hx-swap="beforeend" hx-target="#quiz_div" type="button" id="add_q" class="primary_log">Add a MCQ question</button>
+    </div>
+    <div class="form-group">
+        <button hx-include="#counter" hx-get="/countwrt" hx-swap="beforeend" hx-target="#quiz_div" type="button" id="add_q" class="primary_log">Add a fill in question</button>
+    </div>
+</div>
+<script>
+    function delete_func(element){
+    Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+    if (result.isConfirmed) {
+        var l = $('#counter').val();
+        var t = Number(l) - 1;
+        $('#counter').attr('value', t.toString());
+        // if(t>5){
+        //     $('#submit_button').show();
+        // }else{
+        //     $('#submit_button').hide();
+        // }
+
+        $('.del_q').eq(t-2).show();
+
+        $(element).closest(".item-wrapper").remove();
+
+        if(t<30){
+            $("#add_q").show();
+        }
+    }
+    }
+    )};
+
+
+    
+</script>
+{% endblock %}

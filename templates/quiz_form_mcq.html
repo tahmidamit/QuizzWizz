@@ -1,0 +1,58 @@
+<div class="item-wrapper">
+    <br>
+    <div class="input-group w-50 mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Question {{count}}</span>
+        </div>
+        <input type="text" class="form-control" name="q{{count}}" required aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        <button type="button" style="margin-left: 5px;" onclick="delete_func(this)" class="primary_log del_q"> Delete</button>
+    
+    </div>
+    
+    <div class="input-group w-25 mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Option A</span>
+        </div>
+        <input type="text" class="form-control" name="q{{count}}" required aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+    
+    <div class="input-group w-25 mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Option B</span>
+        </div>
+        <input type="text" class="form-control" name="q{{count}}" required aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+    
+    <div class="input-group w-25 mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Option C</span>
+        </div>
+        <input type="text" class="form-control" name="q{{count}}" required aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+    
+    <div class="input-group w-25 mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Option D</span>
+        </div>
+        <input type="text" class="form-control" name="q{{count}}" required aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group w-25 mb-2">
+        <label class="input-group-text">Select Answer</label>
+        <select class="form-select" name="q{{count}}" id="inputGroupSelect01" required>
+          <option disabled value="" selected>Choose...</option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+        </select>
+    </div>
+
+    <div class="input-group w-25 mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" type="number" id="inputGroup-sizing-default">Marks</span>
+        </div>
+        <input type="text" class="form-control input-error" aria-label="Default" name="q{{count}}" required aria-describedby="inputGroup-sizing-default">
+    </div>
+    
+</div>

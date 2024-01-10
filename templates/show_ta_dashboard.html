@@ -1,0 +1,413 @@
+{% extends "layout.html" %}
+{% set active_page = "quiz" %}
+
+{% block style %}
+<title>Dashboard</title>
+<style>
+    .section {
+        padding: 10px 0;
+        position: relative;
+        margin-top: 10px;
+    }
+    .gray-bg {
+        background-color: #f5f5f5;
+    }
+    .primary_log {
+        background-color: #C6267B; /* Change the button color to darker purple */
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        color: white;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    .primary_log:hover {
+        background-color: #79174b; /* Change the hover color to even darker purple */
+    }
+    .active {
+        color: green;
+    }
+
+    .expired {
+        color: red;
+    }
+    
+    * {
+	box-sizing: border-box;
+    }
+
+    .view-modal,
+    .popup {
+        position: absolute;
+        left: 50%;
+    }
+
+    button {
+        outline: none;
+        cursor: pointer;
+        font-weight: 500;
+        border-radius: 4px;
+        border: 2px solid transparent;
+        transition: background 0.1s linear, border-color 0.1s linear, color 0.1s linear;
+    }
+
+    .popup {
+        background: rgb(255, 254, 254);
+        padding: 25px;
+        border-radius: 15px;
+        top: 10%;
+        max-width: 380px;
+        width: 100%;
+        opacity: 0;
+        pointer-events: none;
+        box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+        transform: translate(-50%, -50%) scale(1.2);
+        transition: top 0s 0.2s ease-in-out,
+            opacity 0.2s 0s ease-in-out,
+            transform 0.2s 0s ease-in-out;
+    }
+
+    .popup.show {
+        top: 50%;
+        left: 50%;
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, -50%) scale(1);
+        transition: top 0s 0s ease-in-out,
+            opacity 0.2s 0s ease-in-out,
+            transform 0.2s 0s ease-in-out;
+
+    }
+
+    .popup :is(header, .icons, .field) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .popup header {
+        padding-bottom: 15px;
+        border-bottom: 1px solid #ebedf9;
+    }
+
+    header span {
+        font-size: 21px;
+        font-weight: 600;
+    }
+
+    header .close,
+    .icons a {
+        display: flex;
+        align-items: center;
+        border-radius: 50%;
+        justify-content: center;
+        transition: all 0.3s ease-in-out;
+    }
+
+    header .close {
+        color: #878787;
+        font-size: 17px;
+        background: #f3f3f3;
+        height: 33px;
+        width: 33px;
+        cursor: pointer;
+    }
+
+    header .close:hover {
+        background: #ebedf9;
+    }
+
+    .popup .content {
+        margin: 20px 0;
+    }
+
+    .popup .icons {
+        margin: 15px 0 20px 0;
+    }
+
+    .content p {
+        font-size: 16px;
+    }
+
+    .content .icons a {
+        height: 50px;
+        width: 50px;
+        font-size: 20px;
+        text-decoration: none;
+        border: 1px solid transparent;
+    }
+
+    .icons a i {
+        transition: transform 0.3s ease-in-out;
+    }
+
+
+    .icons a:hover i {
+        transform: scale(1.2);
+    }
+
+    .content .field {
+        margin: 12px 0 -5px 0;
+        height: 45px;
+        border-radius: 4px;
+        padding: 0 5px;
+        border: 1px solid #757171;
+    }
+
+    .field.active {
+        border-color: #7d2ae8;
+    }
+
+    .field i {
+        width: 50px;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .field.active i {
+        color: #7d2ae8;
+    }
+
+    .field input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        font-size: 15px;
+    }
+
+    .field button {
+        color: #fff;
+        padding: 5px 18px;
+        background: #7d2ae8;
+    }
+
+    .field button:hover {
+        background: #8d39fa;
+    }
+
+    .popup.show {
+        z-index: 999;
+    }
+
+    .popup.show+.backdrop {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    table {
+    counter-reset: tableCount;     
+    }
+    .counterCell:before {              
+        content: counter(tableCount); 
+        counter-increment: tableCount; 
+    }
+
+
+    .apply-button {
+        background-color: #C6267B;
+        border-radius: 60px;
+        border: none;
+        color: white;
+        cursor: pointer;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        text-align: center;
+        animation: glowing 1300ms infinite;
+    }
+    @keyframes glowing {
+        0% {
+        background-color: #d63f90;
+        box-shadow: 0 0 5px #d63f90;
+        }
+        50% {
+        background-color: #C6267B;
+        box-shadow: 0 0 20px #C6267B;
+        }
+        100% {
+        background-color: #e60d81;
+        box-shadow: 0 0 5px #e60d81;
+        }
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+    });
+</script>
+{% endblock %}
+
+
+{% block content %}
+<div style="text-align: center;">
+    <a href="/teacher/quiz/create" class="btn apply-button btn-lg" role="button">Create a new Quiz!!</a>
+</div>
+
+<div class="container section gray-bg">
+    <div class="popup">
+        <header>
+            <span>Share Quiz</span>
+            <div class="close">X<i class="uil uil-times"></i></div>
+        </header>
+        <div class="content">
+            <p>Copy link</p>
+            <div class="field">
+                <i class="url-icon uil uil-link"></i>
+                <input type="text" id="url_link" readonly value="">
+                <button>Copy</button>
+            </div>
+        </div>
+    </div>
+    <div class="backdrop"></div>
+
+    <table class="table table-hover table-secondary table-striped">
+        <caption>Previously created Quizes</caption>
+        <thead>
+          <tr>
+            <th class="text-center"></th>
+            <th class="text-center" scope="col">#sn</th>
+            <th class="text-center" scope="col">Title</th>
+            <th class="text-center" scope="col">Subject</th>
+            <th class="text-center" scope="col">No. Of Question</th>
+            <th class="text-center" scope="col">Total Marks</th>
+            <th class="text-center" scope="col">Date Created</th>
+            <th class="text-center" scope="col"></th>
+            <th class="text-center" scope="col"></th>
+
+
+          </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+                <tr class="clickable-row" data-href="/teacher/quiz/{{i.qid}}">
+                    <th class="text-center"><span class=" {{'active' if i.expired == 0 else 'expired'}}">●</span></th>
+                    <th class="text-center counterCell" scope="row"></th>
+                    <td class="text-center">{{i.title}}</td>
+                    <td class="text-center">{{i.sname}}</td>
+                    <td class="text-center">{{i.no_of_q}}</td>
+                    <td class="text-center">{{i.total_mark}}</td>
+                    <td class="text-center">{{i.date_created[:-8]}}</td>
+                    <td class="text-right">
+                        <button value="{{i.qid}}" onclick="yourfunc(this)" class="btn btn-primary btn-calendar1">Share</button>
+                    </td>
+                    <td class="text-left"><button value="{{i.qid}}" onclick="myfunc(this)" class="btn btn-danger">Delete</button></td>
+
+
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>    
+</div>
+<script>
+    function myfunc(elem){
+        event.stopPropagation();
+        event.preventDefault();
+        var vall = $(elem).val();
+        var formData = new FormData();
+        formData.append("idx", vall);
+        Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+        if (result.isConfirmed) {
+            
+            $.ajax({
+                type : 'POST',
+                url : '/teacher/quiz/delete',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                
+                success: function (data) {
+                Swal.fire({
+                title: "Invalid Input",
+                text: data.error,
+                icon: "error"
+                });
+    
+                if(data.error=="Deleted!"){
+                    Swal.fire({
+                    title: "Success",
+                    text: data.error,
+                    icon: "success"
+                    });
+                    setTimeout(function() {
+                    window.location.href = "/teacher/quiz";
+                    }, 1000);
+                }
+                }
+            });
+            return false;
+        }
+        }
+    )};
+    
+</script>
+
+<script>
+    function yourfunc(e){
+        event.stopPropagation();
+        event.preventDefault();
+        var valle = $(e).val();
+        var formData = new FormData();
+        formData.append("idx", valle);
+        $.ajax({
+            type : 'POST',
+            url : '/teacher/quiz/geturl',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            
+            success: function (data) {
+            $('#url_link').val(data.error);
+            }
+        });
+        const viewBtn = e,
+        popup = document.querySelector(".popup"),
+        close = popup.querySelector(".close"),
+        field = popup.querySelector(".field"),
+        input = field.querySelector("input"),
+        copy = field.querySelector("button");
+        popup.classList.toggle("show");
+        close.onclick = () => {
+        viewBtn.click();
+        }
+        copy.onclick = () => {
+        input.select(); //select input value
+        if (document.execCommand("copy")) { //if the selected text is copied
+            field.classList.add("active");
+            copy.innerText = "Copied";
+            setTimeout(() => {
+                window.getSelection().removeAllRanges(); //remove selection from page
+                field.classList.remove("active");
+                copy.innerText = "Copy";
+            }, 3000);
+        }
+    }
+
+    document.querySelector('.backdrop').addEventListener("click", function(e) {
+        popup.classList.remove("show");
+    });
+
+    }
+
+
+
+    
+</script>
+{% endblock %}

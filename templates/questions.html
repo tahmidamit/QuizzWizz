@@ -1,0 +1,52 @@
+<form action="/student/submit_quiz" id="submit_quiz" method="post">
+    <input type="hidden" name="qid" id="counter" value="{{data[0].belongs_to}}">
+    {% for i in data %}
+        
+        {% if i.question_type=="mcq" %}
+        <div class="question ml-sm-5 pl-sm-5 pt-2">
+            <div class="py-2 h5"><b>Q{{i.position}}. {{i.text}} [&thinsp;{{i.marks}}&thinsp;]</b></div>
+            <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
+                <label class="options">{{i.options.A}}
+                    <input type="radio" name="{{i.position}}" value="A">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="options">{{i.options.B}}
+                    <input type="radio" name="{{i.position}}" value="B">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="options">{{i.options.C}}
+                    <input type="radio" name="{{i.position}}" value="C">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="options">{{i.options.D}}
+                    <input type="radio" name="{{i.position}}" value="D">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+        {% endif %}
+        {% if i.question_type=="wrt" %}
+    
+        <div class="question ml-sm-5 pl-sm-5 pt-2">
+            <div class="py-2 h5"><b>Q{{i.position}}. {{i.text}} [&thinsp;{{i.marks}}&thinsp;]</b></div>
+            <div style="margin-left: 50px;" class="input-group w-25 mb-2">
+                <div class="input-group-prepend">
+                </div>
+                <input type="text" class="form-control" name="{{i.position}}" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+            </div>
+        </div>
+    
+        {% endif %}
+    {% endfor %}
+    <p>&nbsp;</p>
+
+    <div style="text-align: center;">
+        <div style="width: 20%; text-align: center; margin: 0 auto;" class="">
+            <label style="margin-right: 70px;" for="">Comment(if any)</label>
+            <input type="text" style="display: block;" class="" name="comment" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        </div>
+        <div class="form-group">
+            <input style="margin-top: 15px; margin-right: 65px;"  class="btn btn-lg primary_log" type="submit" id="submit_button" value="Submit">
+        </div>
+    </div>
+</form>

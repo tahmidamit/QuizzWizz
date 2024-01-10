@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+{% set active_page = "history" %}
+
+{% block style %}
+<title>History</title>
+<style>
+    .section {
+        padding: 10px 0;
+        position: relative;
+        margin-top: 10px;
+    }
+    .gray-bg {
+        background-color: #f5f5f5;
+    }
+    .active {
+        color: green;
+        
+    }
+
+    .expired {
+        color: red;
+    }
+
+    table {
+    counter-reset: tableCount;     
+    }
+    .counterCell:before {              
+        content: counter(tableCount); 
+        counter-increment: tableCount; 
+    }
+
+</style>
+
+<script>
+    jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+    });
+</script>
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="container section gray-bg">
+
+
+    <table class="table table-hover table-secondary table-striped">
+        <caption>Previously taken quizes</caption>
+        <thead>
+          <tr>
+            <th class="text-center"></th>
+            <th class="text-center" scope="col">#sn</th>
+            <th class="text-center" scope="col">Quiz title</th>
+            <th class="text-center" scope="col">Set by</th>
+            <th class="text-center" scope="col">Subject</th>
+            <th class="text-center" scope="col">Obtained Marks</th>
+            <th class="text-center" scope="col">Taken on</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+                <tr class="{{'clickable-row' if i.expired == 1 else ''}}" data-href="/student/history/{{i.qid if i.expired == 1 else ''}}">
+                    <th class="text-center"><span class="{{'active' if i.expired == 0 else 'expired'}}">●</span></th>
+                    <th class="text-center counterCell" scope="row"></th>
+                    <td class="text-center">{{i.title}}</td>
+                    <td class="text-center">{{i.ta_init}}</td>
+                    <td class="text-center">{{i.sname}}</td>
+                    {% if i.expired==0 %}
+                    <td class="text-center">Marks will be revealed when quiz expires</td>    
+                    {% elif i.expired==1 %}
+                    <td class="text-center">{{i.obtained_marks}}/{{i.total_mark}}</td>
+                    {% endif %}
+                    <td class="text-center">{{i.quiz_date}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>    
+</div>
+
+{% endblock %}

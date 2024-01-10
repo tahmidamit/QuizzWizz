@@ -1,0 +1,24 @@
+<div class="item-wrapper">
+    <br>
+    <div class="input-group w-50 mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Question {{count}}</span>
+        </div>
+        <input type="text" class="form-control" aria-label="Default" name="q{{count}}" required aria-describedby="inputGroup-sizing-default">
+        <button type="button" style="margin-left: 5px;" onclick="delete_func(this)" class="primary_log del_q"> Delete</button>
+    
+    </div>
+    
+    <div class="input-group w-25 mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Answer</span>
+        </div>
+        <input type="text" class="form-control" name="q{{count}}" required aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+    <div class="input-group w-25 mb-2">
+        <div class="input-group-prepend">
+            <span class="input-group-text" type="number" id="inputGroup-sizing-default">Marks</span>
+        </div>
+        <input type="text" class="form-control input-error" name="q{{count}}" required aria-label="Default" aria-describedby="inputGroup-sizing-default">
+    </div>
+</div>
