@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Flask, flash, jsonify, redirect, render_template, session, request
 from werkzeug.security import check_password_hash, generate_password_hash
-from extra import login_required, check_email, send_error, dict_factory, required_roles, apology, calculateAge, create_options, calculate_total, decode_options, generateanswersheet, send_result
+from extra import login_required, check_email, send_error, dict_factory, required_roles, apology, calculateAge, create_options, calculate_total, decode_options, generateanswersheet
 from flask_session import Session
 from random import randint
 from datetime import datetime
@@ -461,10 +461,6 @@ def ta_qz_expire():
         else:
             db.execute("UPDATE quiz SET expired=1 WHERE qid=?", (idx,))
             con.commit()
-            st_detail = db.execute("SELECT q.title, q.total_mark, h.obtained_marks, t.ta_init, s.st_email FROM quiz q, quiz_history h, teacher t, student s WHERE q.qid=h.quiz_id AND q.set_by=t.ta_id AND s.st_id=h.student_id AND h.quiz_id=?", (idx,)).fetchall()
-            for i in st_detail:
-                thr = Thread(target=send_result, args=[i])
-                thr.start()
             return send_error("Updated!")
 
 
