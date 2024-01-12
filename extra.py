@@ -6,7 +6,6 @@ import json
 import os
 import smtplib
 from email.message import EmailMessage
-from dotenv import load_dotenv
 
 def check_email(email):
     try:
@@ -102,34 +101,3 @@ def decode_options(usr):
 
 def generateanswersheet(saved):
     return (saved["position"], saved["answer"])
-
-def send_result(quiz_detail):
-    email = os.getenv('gmail')
-    password = os.getenv('gmail_pass')
-    msg = EmailMessage()
-    msg['Subject'] = f"Quizwizz Update on quiz {quiz_detail["title"]}"
-    msg['From'] = email
-    msg['To'] = quiz_detail["st_email"]
-    msg.set_content(f"Your obtained mark on quiz {quiz_detail["title"]} is {quiz_detail["obtained_marks"]}/{quiz_detail["total_mark"]}.\n")
-
-    msg.add_alternative(f"""\
-        <!DOCTYPE html>
-            <html>
-                <body>
-                    <h4 style='display: inline;'>Your obtained mark on quiz {quiz_detail["title"]} set by {quiz_detail["ta_init"]} is</h4>
-                    <div style='text-align: center;display: inline;'>
-
-                        <h4 style='color:green; display: inline;'> {quiz_detail["obtained_marks"]}/{quiz_detail["total_mark"]} </h4>
-
-                    </div>
-                </body>
-                <p> Go to the history tab to see the solution of the quiz. </P>
-            </html>
-        """, subtype='html')
-
-
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-
-        smtp.login(email, password)
-
-        smtp.send_message(msg) 
