@@ -1,5 +1,5 @@
 # QuizzWizz
-A platform where teachers and students can engage in Quizzes. The teachers create quizzes and the students take them. The  teachers can show the marks right on the platform or send an automated mail with the marks. This was for one of my courses, CSE370, where I had to assemble a fully functional web app with a complex backend database. [Live here](https://quizwizz.onrender.com/)
+A platform where teachers and students can engage in Quizzes. The teachers create quizzes, and the students take them. The  teachers can show the marks right on the platform or send an automated mail with the marks. This was for one of my courses, CSE370, where I had to assemble a fully functional web app with a complex backend database. [Live here](https://quizwizz.onrender.com/) (It might take a while to load the first time). 
 
 ## Welcome page
 The welcome page to greet teachers and students on the platform.
